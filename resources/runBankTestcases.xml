@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suite name="Nop Commerce" parallel="false">
+
+  <test name="Run on FIREFOX UI">
+    <classes>
+      <class name="com.nopcommerce.payment.Topic_06_Multiple_Browser"/>
+    </classes>
+  </test> <!-- Test -->
+  
+    <test name="Run on FIREFOX HEADLESS">
+    <classes>
+       <class name="com.nopcommerce.payment.Topic_06_Multiple_Browser"/>
+    </classes>
+  </test> <!-- Test -->
+  
+    <test name="Run on CHROME UI">
+    <classes>
+     <class name="com.nopcommerce.payment.Topic_06_Multiple_Browser"/>
+    </classes>
+  </test> <!-- Test -->
+  
+    <test name="Run on CHROME HEADLESS">
+    <classes>
+      <class name="com.nopcommerce.payment.Topic_06_Multiple_Browser"/>
+    </classes>
+  </test> <!-- Test -->
+  
+</suite> <!-- Suite -->
