@@ -36,4 +36,11 @@ public class HomePageObject extends AbstractPageObject {
 		return isElementDisplayed(HomePageUI.LOGOUT_LINK);
 	}
 
+	public HeaderMyAccountPO openHeaderMyAccountPage(WebDriver driver) {
+		// TODO Auto-generated method stub
+		waitToElementVisible(HomePageUI.LOGIN_LINK);
+		clickToElement(HomePageUI.LOGIN_LINK);
+		return PageGeneratorManager.getHeaderMyAccountPage(driver);
+	}
+
 }

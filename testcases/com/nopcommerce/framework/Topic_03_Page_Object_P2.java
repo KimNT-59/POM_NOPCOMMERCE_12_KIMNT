@@ -1,12 +1,14 @@
-package com.nopcommerce.payment;
+package com.nopcommerce.framework;
 
 import static org.testng.AssertJUnit.assertTrue;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+
 import PageObject.HomePageObject;
 import PageObject.LoginPageObject;
 import PageObject.RegisterPageObject;
 import commons.AbstractPageObject;
+
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import org.openqa.selenium.WebDriver;
@@ -14,7 +16,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.annotations.AfterClass;
 
-public class Topic_03_Page_Object {
+public class Topic_03_Page_Object_P2 {
 	AbstractPageObject abstractPage;
 	WebDriver driver;
 	Select select;
@@ -41,9 +43,11 @@ public class Topic_03_Page_Object {
 
 	@Test
 	public void TC_01_Register() {
+		System.out.println("Open Url - Navigate to Home page");
+		homePage = new HomePageObject(driver);
+
 		System.out.println("Home Page - Click Register Link");
-		homePage.clickToRegisterLink();
-		registerPage = new RegisterPageObject(driver);
+		registerPage = homePage.clickToRegisterLink();
 
 		System.out.println("Register Page - Click to Gender radio button");
 		registerPage.clickToMaleRadioButton();
@@ -79,15 +83,17 @@ public class Topic_03_Page_Object {
 	@Test
 	public void TC_02_Login() {
 		System.out.println("Home Page - Click Login Link");
-		homePage.clickToLoginLink();
-		loginPage = new LoginPageObject(driver);
+		loginPage = homePage.clickToLoginLink();
+
 		System.out.println("Login Page - Input to Email textbox");
 		loginPage.inputToEmailTextbox(email);
+
 		System.out.println("Login Page - Input to PW textbox");
 		loginPage.inputToPasswordTextbox("123123");
+
 		System.out.println("Login Page - Input to Login button>> Navigate to Home page");
 		loginPage.clickToLoginbutton();
-		homePage = new HomePageObject(driver);
+
 		System.out.println("Home Page - Verify My Account and logout link is displayed");
 		assertTrue(homePage.isMyAccountLinkisDisplayed());
 		assertTrue(homePage.isLogoutLinkisDisplayed());

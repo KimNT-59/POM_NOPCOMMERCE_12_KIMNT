@@ -1,13 +1,12 @@
-package com.nopcommerce.payment;
-
+package com.nopcommerce.framework;
 import static org.testng.AssertJUnit.assertTrue;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
 import PageObject.HomePageObject;
 import PageObject.LoginPageObject;
 import PageObject.RegisterPageObject;
 import commons.AbstractPageObject;
+import commons.PageGeneratorManager;
 
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
@@ -16,8 +15,8 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.annotations.AfterClass;
 
-public class Topic_03_Page_Object_P2 {
-	AbstractPageObject abstractPage;
+public class Level_05_Page_Generator {
+    AbstractPageObject abstractPage;
 	WebDriver driver;
 	Select select;
 	String email;
@@ -44,7 +43,7 @@ public class Topic_03_Page_Object_P2 {
 	@Test
 	public void TC_01_Register() {
 		System.out.println("Open Url - Navigate to Home page");
-		homePage = new HomePageObject(driver);
+		homePage = PageGeneratorManager.getHomePage(driver);
 
 		System.out.println("Home Page - Click Register Link");
 		registerPage = homePage.clickToRegisterLink();
@@ -77,7 +76,7 @@ public class Topic_03_Page_Object_P2 {
 
 		System.out.println("Register Page - Click to Logout link -> navigate to Home page");
 		registerPage.clickToLogoutLink();
-		homePage = new HomePageObject(driver);
+		homePage = PageGeneratorManager.getHomePage(driver);
 	}
 
 	@Test
@@ -91,7 +90,7 @@ public class Topic_03_Page_Object_P2 {
 		System.out.println("Login Page - Input to PW textbox");
 		loginPage.inputToPasswordTextbox("123123");
 
-		System.out.println("Login Page - Input to Login button>> Navigate to Home page");
+		System.out.println("Login Page - Click to Login button>> Navigate to Home page");
 		loginPage.clickToLoginbutton();
 
 		System.out.println("Home Page - Verify My Account and logout link is displayed");

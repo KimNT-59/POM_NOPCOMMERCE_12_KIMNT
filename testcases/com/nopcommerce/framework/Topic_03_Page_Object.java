@@ -1,4 +1,5 @@
-package com.nopcommerce.payment;
+package com.nopcommerce.framework;
+
 import static org.testng.AssertJUnit.assertTrue;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -6,8 +7,6 @@ import PageObject.HomePageObject;
 import PageObject.LoginPageObject;
 import PageObject.RegisterPageObject;
 import commons.AbstractPageObject;
-import commons.PageGeneratorManager;
-
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import org.openqa.selenium.WebDriver;
@@ -15,8 +14,8 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.annotations.AfterClass;
 
-public class Level_05_Page_Generator {
-    AbstractPageObject abstractPage;
+public class Topic_03_Page_Object {
+	AbstractPageObject abstractPage;
 	WebDriver driver;
 	Select select;
 	String email;
@@ -42,11 +41,9 @@ public class Level_05_Page_Generator {
 
 	@Test
 	public void TC_01_Register() {
-		System.out.println("Open Url - Navigate to Home page");
-		homePage = PageGeneratorManager.getHomePage(driver);
-
 		System.out.println("Home Page - Click Register Link");
-		registerPage = homePage.clickToRegisterLink();
+		homePage.clickToRegisterLink();
+		registerPage = new RegisterPageObject(driver);
 
 		System.out.println("Register Page - Click to Gender radio button");
 		registerPage.clickToMaleRadioButton();
@@ -76,23 +73,21 @@ public class Level_05_Page_Generator {
 
 		System.out.println("Register Page - Click to Logout link -> navigate to Home page");
 		registerPage.clickToLogoutLink();
-		homePage = PageGeneratorManager.getHomePage(driver);
+		homePage = new HomePageObject(driver);
 	}
 
 	@Test
 	public void TC_02_Login() {
 		System.out.println("Home Page - Click Login Link");
-		loginPage = homePage.clickToLoginLink();
-
+		homePage.clickToLoginLink();
+		loginPage = new LoginPageObject(driver);
 		System.out.println("Login Page - Input to Email textbox");
 		loginPage.inputToEmailTextbox(email);
-
 		System.out.println("Login Page - Input to PW textbox");
 		loginPage.inputToPasswordTextbox("123123");
-
-		System.out.println("Login Page - Click to Login button>> Navigate to Home page");
+		System.out.println("Login Page - Input to Login button>> Navigate to Home page");
 		loginPage.clickToLoginbutton();
-
+		homePage = new HomePageObject(driver);
 		System.out.println("Home Page - Verify My Account and logout link is displayed");
 		assertTrue(homePage.isMyAccountLinkisDisplayed());
 		assertTrue(homePage.isLogoutLinkisDisplayed());

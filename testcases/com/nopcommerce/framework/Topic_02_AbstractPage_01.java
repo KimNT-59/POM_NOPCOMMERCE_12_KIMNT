@@ -1,4 +1,4 @@
-package com.nopcommerce.payment;
+package com.nopcommerce.framework;
 
 import static org.testng.AssertJUnit.assertTrue;
 

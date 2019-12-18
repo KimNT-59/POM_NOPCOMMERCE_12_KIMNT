@@ -13,8 +13,16 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import PageObject.FooterMyAccountPage;
+import PageObject.HeaderMyAccountPO;
+import PageObject.HomePageObject;
+import PageObject.SearchPO;
+import PageObject.ShippingAndReturnPO;
+import PageObject.SiteMapPO;
+import pageUIs.AbstractPageUI;
+
 public class AbstractPageObject {
-    WebDriver driverGlobal;
+	WebDriver driver;
 	WebElement element;
 	List<WebElement> elements;
 	Select select;
@@ -27,39 +35,39 @@ public class AbstractPageObject {
 
 	public AbstractPageObject(WebDriver driverLocal) {
 
-		driverGlobal = driverLocal;
-		jsExecutor = (JavascriptExecutor) driverGlobal;
-		waitExplicit = new WebDriverWait(driverGlobal, 30);
-		action = new Actions(driverGlobal);
+		this.driver = driver;
+		jsExecutor = (JavascriptExecutor) driver;
+		waitExplicit = new WebDriverWait(driver, longTimeout);
+		action = new Actions(driver);
 	}
 
 	public void openUrl(String urlValue) {
-		driverGlobal.get(urlValue);
+		driver.get(urlValue);
 
 	}
 
 	public String getPageTitle() {
-		return driverGlobal.getTitle();
+		return driver.getTitle();
 	}
 
 	public String getPageCurrentUrl() {
-		return driverGlobal.getCurrentUrl();
+		return driver.getCurrentUrl();
 	}
 
 	public String getPageSourceCode() {
-		return driverGlobal.getPageSource();
+		return driver.getPageSource();
 	}
 
 	public void backToPage() {
-		driverGlobal.navigate().back();
+		driver.navigate().back();
 	}
 
 	public void refreshInPage() {
-		driverGlobal.navigate().refresh();
+		driver.navigate().refresh();
 	}
 
 	public void forwardToPage() {
-		driverGlobal.navigate().forward();
+		driver.navigate().forward();
 	}
 
 	public void waitAlertPresence() {
@@ -67,40 +75,40 @@ public class AbstractPageObject {
 	}
 
 	public void acceptAlert() {
-		driverGlobal.switchTo().alert().accept();
+		driver.switchTo().alert().accept();
 	}
 
 	public void cancelAlert() {
-		driverGlobal.switchTo().alert().dismiss();
+		driver.switchTo().alert().dismiss();
 	}
 
 	public void sendKeyToAlert(String value) {
-		driverGlobal.switchTo().alert().sendKeys(value);
+		driver.switchTo().alert().sendKeys(value);
 	}
 
 	public String getTextAlert() {
-		return driverGlobal.switchTo().alert().getText();
+		return driver.switchTo().alert().getText();
 	}
 
 	public void clickToElement(String locator) {
-		element = driverGlobal.findElement(By.xpath(locator));
+		element = driver.findElement(By.xpath(locator));
 		element.click();
 	}
 
 	public void sendKeyToElement(String locator, String value) {
-		element = driverGlobal.findElement(By.xpath(locator));
+		element = driver.findElement(By.xpath(locator));
 		element.clear();
 		element.sendKeys(value);
 	}
 
 	public void selectItemInDropdown(String locator) {
-		element = driverGlobal.findElement(By.xpath(locator));
+		element = driver.findElement(By.xpath(locator));
 		select = new Select(element);
 		select.getFirstSelectedOption().getText();
 	}
 
 	public String getValueInDropdown(String locator) {
-		element = driverGlobal.findElement(By.xpath(locator));
+		element = driver.findElement(By.xpath(locator));
 		select = new Select(element);
 		return select.getFirstSelectedOption().getText();
 	}
@@ -116,13 +124,13 @@ public class AbstractPageObject {
 	}
 
 	public void selectItemInDropdown(String parentLocator, String allItemsLocator, String expectedItem) {
-		element = driverGlobal.findElement(By.xpath(parentLocator));
+		element = driver.findElement(By.xpath(parentLocator));
 		jsExecutor.executeScript("arguments[0].scrollIntoView(true);", element);
 		sleepInSecond(1);
 		jsExecutor.executeScript("arguments[0].click();", element);
 		sleepInSecond(1);
 		waitExplicit.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath(allItemsLocator)));
-		elements = driverGlobal.findElements(By.xpath(allItemsLocator));
+		elements = driver.findElements(By.xpath(allItemsLocator));
 		for (WebElement item : elements) {
 			System.out.println(item.getText());
 			if (item.getText().equals(expectedItem)) {
@@ -136,22 +144,22 @@ public class AbstractPageObject {
 	}
 
 	public String getAttributeValue(String locator, String attributeName) {
-		element = driverGlobal.findElement(By.xpath(locator));
+		element = driver.findElement(By.xpath(locator));
 		return element.getAttribute(attributeName);
 	}
 
 	public String getTextElement(String locator) {
-		element = driverGlobal.findElement(By.xpath(locator));
+		element = driver.findElement(By.xpath(locator));
 		return element.getText();
 	}
 
 	public int countElementNumber(String locator) {
-		elements = driverGlobal.findElements(By.xpath(locator));
+		elements = driver.findElements(By.xpath(locator));
 		return elements.size();
 	}
 
 	public void checkToCheckbox(String locator) {
-		elements = driverGlobal.findElements(By.xpath(locator));
+		elements = driver.findElements(By.xpath(locator));
 		if (element.isSelected() == false) {
 			element.click();
 
@@ -159,7 +167,7 @@ public class AbstractPageObject {
 	}
 
 	public void unCheckToCheckbox(String locator) {
-		elements = driverGlobal.findElements(By.xpath(locator));
+		elements = driver.findElements(By.xpath(locator));
 		if (element.isSelected() == true) {
 			element.click();
 
@@ -167,54 +175,54 @@ public class AbstractPageObject {
 	}
 
 	public boolean isElementDisplayed(String locator) {
-		elements = driverGlobal.findElements(By.xpath(locator));
+		elements = driver.findElements(By.xpath(locator));
 		return element.isDisplayed();
 
 	}
 
 	public boolean isElementSelected(String locator) {
-		elements = driverGlobal.findElements(By.xpath(locator));
+		elements = driver.findElements(By.xpath(locator));
 		return element.isSelected();
 
 	}
 
 	public boolean isElementEnabled(String locator) {
-		elements = driverGlobal.findElements(By.xpath(locator));
+		elements = driver.findElements(By.xpath(locator));
 		return element.isEnabled();
 
 	}
 
 	public void switchToChildWindowByID(String parent) {
-		Set<String> allWindows = driverGlobal.getWindowHandles();
+		Set<String> allWindows = driver.getWindowHandles();
 		for (String runWindow : allWindows) {
 			if (!runWindow.equals(parent)) {
-				driverGlobal.switchTo().window(runWindow);
+				driver.switchTo().window(runWindow);
 				break;
 			}
 		}
 	}
 
 	public boolean closeAllWindowsWithoutParent(String parentWindow) {
-		Set<String> allWindows = driverGlobal.getWindowHandles();
-		driverGlobal.getWindowHandles();
+		Set<String> allWindows = driver.getWindowHandles();
+		driver.getWindowHandles();
 		for (String runWindows : allWindows) {
 			if (!runWindows.equals(parentWindow)) {
-				driverGlobal.switchTo().window(runWindows);
-				driverGlobal.close();
+				driver.switchTo().window(runWindows);
+				driver.close();
 			}
 		}
-		driverGlobal.switchTo().window(parentWindow);
-		if (driverGlobal.getWindowHandles().size() == 1)
+		driver.switchTo().window(parentWindow);
+		if (driver.getWindowHandles().size() == 1)
 			return true;
 		else
 			return false;
 	}
 
 	public void switchToWindowByTitle(String title) {
-		Set<String> allWindows = driverGlobal.getWindowHandles();
+		Set<String> allWindows = driver.getWindowHandles();
 		for (String runWindows : allWindows) {
-			driverGlobal.switchTo().window(runWindows);
-			String currentWin = driverGlobal.getTitle();
+			driver.switchTo().window(runWindows);
+			String currentWin = driver.getTitle();
 			if (currentWin.equals(title)) {
 				break;
 			}
@@ -223,26 +231,26 @@ public class AbstractPageObject {
 	}
 
 	public void switchToFrameOriFrame(String locator) {
-		element = driverGlobal.findElement(By.xpath(locator));
-		driverGlobal.switchTo().frame(element);
+		element = driver.findElement(By.xpath(locator));
+		driver.switchTo().frame(element);
 	}
 
 	public void switchToParentPage() {
-		driverGlobal.switchTo().defaultContent();
+		driver.switchTo().defaultContent();
 	}
 
 	public void hoverToElement(String locator) {
-		element = driverGlobal.findElement(By.xpath(locator));
+		element = driver.findElement(By.xpath(locator));
 		action.moveToElement(element).perform();
 	}
 
 	public void doubleClickToElement(String locator) {
-		element = driverGlobal.findElement(By.xpath(locator));
+		element = driver.findElement(By.xpath(locator));
 		action.doubleClick(element).perform();
 	}
 
 	public void sendKeyboardToElement(String locator, Keys key) {
-		element = driverGlobal.findElement(By.xpath(locator));
+		element = driver.findElement(By.xpath(locator));
 		action.sendKeys(element, key).perform();
 	}
 
@@ -278,4 +286,42 @@ public class AbstractPageObject {
 		by = By.xpath(locator);
 		waitExplicit.until(ExpectedConditions.elementToBeClickable(by));
 	}
+
+	// 28 hàm để mở ra 28 pages
+	public HeaderMyAccountPO openHeaderMyAccountPage() {
+		waitToElementVisible(AbstractPageUI.HEADER_MY_ACCOUNT_LINK);
+		clickToElement(AbstractPageUI.HEADER_MY_ACCOUNT_LINK);
+		return PageGeneratorManager.getHeaderMyAccountPage(driver);
+	}
+
+	public HomePageObject openHomePage() {
+		waitToElementVisible(AbstractPageUI.HEADER_HOMEPAGE_LINK);
+		clickToElement(AbstractPageUI.HEADER_HOMEPAGE_LINK);
+		return PageGeneratorManager.getHomePage(driver);
+	}
+
+	public SiteMapPO openSiteMapPage() {
+		waitToElementVisible(AbstractPageUI.FOOTER_SITEMAP_LINK);
+		clickToElement(AbstractPageUI.FOOTER_SITEMAP_LINK);
+		return PageGeneratorManager.getSiteMapPage(driver);
+	}
+
+	public SearchPO openSearchPage() {
+		waitToElementVisible(AbstractPageUI.FOOTER_SEARCH_LINK);
+		clickToElement(AbstractPageUI.FOOTER_SEARCH_LINK);
+		return PageGeneratorManager.getSearchPage(driver);
+	}
+
+	public FooterMyAccountPage openFooterMyAccountPage() {
+		waitToElementVisible(AbstractPageUI.FOOTER_MY_ACCOUNT_LINK);
+		clickToElement(AbstractPageUI.FOOTER_MY_ACCOUNT_LINK);
+		return PageGeneratorManager.getFooterMyAccountPage(driver);
+	}
+
+	public ShippingAndReturnPO openShippingAndReturn() {
+		waitToElementVisible(AbstractPageUI.HEADER_MY_ACCOUNT_LINK);
+		clickToElement(AbstractPageUI.HEADER_MY_ACCOUNT_LINK);
+		return PageGeneratorManager.getShippingAndReturnPage(driver);
+	}
+
 }
